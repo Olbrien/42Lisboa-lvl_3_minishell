@@ -484,3 +484,9 @@ int main(int argc, char **argv, char **envp)
 		free(g_sh.line);
 	}
 }
+
+/*
+	https://www.gnu.org/software/termutils/manual/termcap-1.3/html_mono/termcap.html
+	http://www.physics.udel.edu/~watson/scen103/ascii.html	
+
+*/
