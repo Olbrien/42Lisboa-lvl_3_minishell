@@ -87,8 +87,7 @@ will do 3 things:
 ------------------------------------------------------------------------------
 
 get_next_line (fd, buffer(**line)).
-									Inside of gnl you have a buffer_size.
-									You can change it on get_next_line.h
+
 
 stdin:  Same as fd = 0.		<--- This is what the keyboard writes.
 stdout: Same as fd = 1. 	<--- This is what the shell terminal shows.
@@ -106,9 +105,8 @@ Commands:
 
 	builtin:
 
-		absolute_path (NO Options, NO Args) // Changes prompt from "minishell$ " to absolute path.
-		testing		  (NO Options, NO Args) // Changes subject commands for real builtin commands.
 		history		  (NO Options, NO Args) // List of the history of things you did.
+		debugger	  (NO Options, NO Args) // Debug 1 , Debug 2, Debug 0
 
 		echo		  (-n Option,  YES Args) // -n  Do not output a trailing newline.
 		pwd			  (NO Options, YES Args)
@@ -196,10 +194,10 @@ How our program works with examples:
 			After doing that, we take the locations of the ";" and how many there are.
 
 				 echo "hello ; bye" how are "you" ; echo "I'm fine!" thank you ; ls -a ; env
-												  .							   .       .
-												 /|\						  /|\     /|\
-												  |							   |	   |
-												  38						   61	   69
+					     .						       .       .
+				            /|\						      /|\     /|\
+				             |					               |       |
+					    38						      61      69
 
 			We have 3 ";" at locations 38, 61 and 69.
 			We now have to divide the first line from 0 to 38, the second from 39 to 61, the
@@ -281,16 +279,6 @@ Signals:
 		CHAR will send a quit signal
 
 	https://pubs.opengroup.org/onlinepubs/7908799/xsh/signal.h.html
-
-------------------------------------------------------------------------------
-
-Errors:
-
-	Errors are checked with $?
-
-		Quotation Marks Incomplete. (No real error. Just minishell requirement)
-		bash: syntax error near unexpected token ';' (2: command not found)
-
 
 
 ------------------------------------------------------------------------------
@@ -427,18 +415,18 @@ Parsing:							(Major headache)
 
 		}				t_list;
 
-		t_list->args[0] = "ping";							t_list->type = '|';
-			  ->args[1] = "-c";
-			  ->args[2] = "1";						// The root of the t_list is a Pipe.
-			  ->args[3] = "google.com";
-			  ->args[4] = NULL;
+		t_list->args[0] = "ping";						t_list->type = '|';
+		      ->args[1] = "-c";
+		      ->args[2] = "1";						// The root of the t_list is a Pipe.
+		      ->args[3] = "google.com";
+		      ->args[4] = NULL;
 
 		t_list->next->args[0] = "grep";						t_list->type = '|';
-					->args[1] = "rtt";
-					->args[2] = NULL;
+			    ->args[1] = "rtt";
+			    ->args[2] = NULL;
 
 		t_list->next->next->args[0] = "wc";					t_list->type = '>';
-						  ->args[1] = NULL;
+				  ->args[1] = NULL;
 
 		t_list->next->next->next->args[0] = "aqui.txt";		t_list->type = '>';
 						  		->args[1] = NULL;
@@ -453,20 +441,20 @@ Parsing:							(Major headache)
 		Continuing our example.
 		S.C. = Simple Commmand.
 
-						ping -c 1 google.com | grep rtt | wc > aqui.txt
-					   |					 |			|			   |
-					   |					 |			|			   |
-					   |		S.C.		 |	 S.C.	|	  S.C.     |
+					    ping -c 1 google.com | grep rtt | wc > aqui.txt
+					   |			 |	    |		   |
+					   |			 |	    |		   |
+					   |	    S.C.	 |   S.C.   |	  S.C.     |
 
 		Simple commands are divided when they find a '|'. If you find a > or >> or <
 		you're still on the simple command.
 
 		Another example:
 
-			ping google.com | grep rtt | wc > aqui.txt < ali.txt > aqui.txt | wc
-		   |				|		   |									|	  |
-		   |				|		   |									|	  |
-		   |	  S.C.		|	S.C.   |				S.C.				| S.C.|
+		    ping google.com | grep rtt | wc > aqui.txt < ali.txt > aqui.txt | wc
+		   |		    |	       |				    |     |
+		   |		    |	       |				    |     |
+		   |	  S.C.	    |   S.C.   |		    S.C.	    | S.C.|
 
 
 		Ok. Back on the cmd_tables[1].
@@ -486,19 +474,19 @@ Parsing:							(Major headache)
 		}				t_simplecommand;
 
 		t_simplecommand->command[0] = "ping";					..->outfile = NULL;
-					   ->command[1] = "-c";						..->infile	= NULL;
-					   ->command[2] = "1";
-					   ->command[3] = "google.com";
-					   ->command[4] = NULL;
+			       ->command[1] = "-c";					..->infile  = NULL;
+			       ->command[2] = "1";
+			       ->command[3] = "google.com";
+			       ->command[4] = NULL;
 
 		t_simplecommand->next->command[0] = "grep";				..->outfile = NULL;
-					   		 ->command[1] = "rtt";				..->infile	= NULL;
-					   		 ->command[2] = NULL;
+				     ->command[1] = "rtt";				..->infile  = NULL;
+			             ->command[2] = NULL;
 
-		t_simplecommand->next->next->command[0] = "wc";			..->outfile[0] = "aqui.txt";
-					   		 	   ->command[1] = NULL;			..->outfile[1] = NULL;
+		t_simplecommand->next->next->command[0] = "wc";				..->outfile[0] = "aqui.txt";
+					   ->command[1] = NULL;				..->outfile[1] = NULL;
 
-																..->infile = NULL;
+											..->infile = NULL;
 
 		The parsing is all done!
 
@@ -521,7 +509,7 @@ Parsing:							(Major headache)
 												 // It goes to gstruct->t_list.
 
 				convert_to_simple_commands(gstruct->t_list); // This is Step 3.
-															 // It goes to gstruct->simple_commands.
+												 // It goes to gstruct->simple_commands.
 
 				// Now we have simple commands we do a while loop on it.
 
@@ -537,20 +525,14 @@ Parsing:							(Major headache)
 		}
 
 
-Execute:				(Another Major Headache)
-
-
-
-
-
 
 Info:
 
 outfile '>'
-		open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+		open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 
 outfile '>>'
-		open(outfile, O_WRONLY | O_CREAT | O_APPEND, 0666);
+		open(outfile, O_WRONLY | O_CREAT | O_APPEND, 0777);
 
 infile	'<'
 		open(infile, O_RDONLY);
@@ -561,66 +543,56 @@ In any simple command there is only one and only ONE command!
 And the only command is ALWAYS the first argument of the simple command. Always.
 
 	 echo ola | echo adeus > te.txt < aqui.txt | ls | wc | wc >> ali.txt
-	|		  |								   |    |    |				|
-	|		  |								   |    |    |				|
-	|	echo  |				echo			   | ls	| wc | wc			|
-
-Antes do loop fazer todos os infiles.
-(Se o infile der fd = -1 "bash: aqui.txt: No such file or directory" e dar return (0);)
-
-No loop fazer os outfiles só na última iteração (que é quando vais buscar o fd [0]).
-Mas fazes os outfiles todos à mesma para criar ficheiros (mesmo se estão vazios).
+       |	  |				   |    |    |		    |
+       |	  |				   |    |    |		    |
+       | echo     | echo			   | ls	| wc | wc	    |
 
 
-Exemplo : "echo ola > aqui.txt > alo.txt"
-	Vais abrir os dois ficheiros no loop do **outfile da struct. t_simplecommand.
-	open("aqui.txt", O_WRONLY | O_CREAT | O_TRUNC, 0666);
-	open("alo.txt", O_WRONLY | O_CREAT | O_TRUNC, 0666);
-	Só que o "ola" do echo vai só para o ficheiro alo.txt .
-	O aqui.txt vai estar vazio.
 
-Exemplo : "echo ola > aqui.txt adeus > alo.txt ali"
+Example : "echo ola > aqui.txt > alo.txt"
 
-	Neste exemplo guardas o "adeus" e "ali" e colocas dentro do alo.txt.
-	O outline é sempre o arg[0], os outros argumentos, neste caso, adeus e ali,
-	guardas à parte e metes no fim dentro do alo.txt.
-	Isto dentro do alo.txt vai ter "ola adeus ali".
+	You're going to open 2 files in the loop.
+	open("aqui.txt", O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	open("alo.txt", O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	Only "ola" of the echo is going to alo.txt
+	Aqui.txt is going to be empty.
 
-Exemplo : "cat < ali.txt"
+Example : "echo ola > aqui.txt adeus > alo.txt ali"
+
+	In this example you save "adeus" and "ali" and you put inside alo.txt.
+	The outline is always arg[0], the other arguments, in this case, adeus and ali,
+	you save it a part and store it in alo.txt.
+	Inside alo.txt you're going to have "ola adeus ali".
+
+Example : "cat < ali.txt"
 
 	int fd = open("ali.txt", O_RDONLY);
-	Se o ficheiro não existir fd vai ser -1, se existir vai ser outro valor.
-	Se não existir vais dar return.
+	If the file doesn't exist fd is going to be -1, if it exists it's going to be another value.
 
-Exemplo : "cat < ali.txt < aqui.txt"
+Example : "cat < ali.txt < aqui.txt"
 
-	O ficheiro que vai levar o cat é sempre o ultimo infile.
+	The file that's going to be "cat" is aqui.txt.
 	int fd = open("ali.txt", O_RDONLY);
 	int fd = open("aqui.txt", O_RDONLY);
 
-Exemplo : "cat < ali.txt aqui.txt"
+Example : "cat < ali.txt aqui.txt"
 
 	O ficheiro que vai levar o cat é sempre o ultimo argumento.
 	int fd = open("ali.txt", O_RDONLY);
 	int fd = open("aqui.txt", O_RDONLY);
 
-Exemplo : "echo ola >> aqui.txt adeus > alo.txt ali"
+Example : "echo ola >> aqui.txt adeus > alo.txt ali"
 
-	Aqui só conta o >. Só faz O_TRUNC.
+	Here only counts >. It only does O_TRUNC.
 
-Exemplo : "echo ola > aqui.txt adeus >> alo.txt ali"
+Example : "echo ola > aqui.txt adeus >> alo.txt ali"
 
-	Aqui só conta o >>. Só faz O_APPEND.
+	Here it only counts >>. Only does O_APPEND.
 
 
 ------------------------------------------------------------------------------
 
 Tests:
-
-	✅	= Done!
-	❌	= Nuno Part!
-	❓	= Arranjamos ou não?
-
 
 	Tokens:
 
@@ -638,7 +610,6 @@ Tests:
 	✅	> echo ola
 	✅	echo ola || adeus
 
-
 	CD:
 
 	✅	cd ../../../../../..
@@ -649,7 +620,6 @@ Tests:
 	✅	cd -
 	✅	cd $HOME/Documents
 	✅	unset HOME; cd
-
 
 	Echo:
 
@@ -663,57 +633,50 @@ Tests:
 	✅	echo "$     a"
 	✅	echo
 	✅	echo ""
-	✅	echo a"bc"d				(Fica a"bc"d e não abcd).
-	✅	echo a'bcd'e			(Fica a'bcd'e e não fica abcde)
-	✅	echo $"HOME"			(Fica HOME" e não HOME)
-	✅	echo $HO"ME"			(Fica ME" e não ME)
-
+	✅	echo a"bc"d			
+	✅	echo a'bcd'e			
+	✅	echo $"HOME"			
+	✅	echo $HO"ME"			
 
 	Env:
 
 	✅	env
 
-
 	Exit:
 
-	✅	exit					(Tem que ficar $? = 0)
-	✅	exit 0					(Tem que ficar $? = 0)
-	✅	exit 1					(Tem que ficar $? = 1)
-	✅	exit -1					(Tem que ficar $? = 1)
-	✅	exit -1					(Tem que ficar $? = 1)
-	✅	exit 12; exit 20		(Tem que ficar $? = 12)
-	✅	exit 12; exit 20		(Tem que ficar $? = 12)
-	✅	exit 1 2 3				(Não pode sair e bash: exit: too many arguments)
-
+	✅	exit				
+	✅	exit 0				
+	✅	exit 1				
+	✅	exit -1				
+	✅	exit -1				
+	✅	exit 12; exit 20		
+	✅	exit 12; exit 20		
+	✅	exit 1 2 3				
 
 	Export:
 
 	✅	export a=10
 	✅	export _abc=10
-	✅	export					(Tem que mostrar todas as variaveis com "declare -x" atrás)
-	✅	export 111=222			(bash: export: `111=222': not a valid identifier)
-	✅	export 1abc=123			(bash: export: `1abc=123': not a valid identifier)
-
+	✅	export					
+	✅	export 111=222			
+	✅	export 1abc=123			
 
 	PWD:
 
 	✅	pwd
 	✅	pwd hello
 
-
 	Unset:
 
-	✅	unset a					(Se tiver export a=10)
-	✅	unset babasadasd		(Se não houver babasadasd)
-	✅	unset					(Dá segmentation fault)
-	✅	unset a=10				(Se tiver export a=10 e deres unset, tem que dar "bash: unset: `a=10': not a valid identifier")
-
+	✅	unset a					
+	✅	unset babasadasd		
+	✅	unset					
+	✅	unset a=10				
 
 	Executable Files:
 
 	✅	./exectest
 	✅	./exectest teste teste
-
 
 	Pipes:
 
@@ -740,7 +703,6 @@ Tests:
 	✅	export TEST=123 | cat -e | cat -e ; echo $TEST
 	✅	unset TEST | cat -e
 
-
 	Redirections > >>:
 
 	✅	ls > text.txt
@@ -757,7 +719,6 @@ Tests:
 	✅	whereis grep > tmp/file ; cat tmp/file ; ls -la tmp/file
 	✅	echo ola > aqui.txt | cat aqui.txt
 
-
 	Redirections <:
 
 	✅	cat < teste.txt
@@ -767,13 +728,9 @@ Tests:
 	✅	echo ola < aqui.txt < ali.txt | echo ola
 	✅	ls -la > tmp/file ; cat < tmp/file tmp/doesntexist
 
-
 	Mixed:
 
 	✅	whereis grep > tmp/file ; cat tmp/file ; ls -la tmp/file | grep "grep"
-
-
-
 	✅	echo ola < alo.txt
 	✅	echo ola < exemplo.txt
 	✅	echo ola | cat exemplo.txt
@@ -781,6 +738,7 @@ Tests:
 	✅	echo ola | cat exemplo.txt > aqui.txt
 	✅	echo ola | cat < exemplo.txt
 	✅	echo ola | cat < alo
+
 
 ------------------------------------------------------------------------------
 </pre>
