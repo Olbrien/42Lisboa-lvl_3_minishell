@@ -44,14 +44,14 @@ Some important links:
 
 [Tutorial - Write a Shell in C](https://brennan.io/2015/01/16/write-a-shell-in-c/)\
 [Chapter 5. Writing Your Own Shell](https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf)\
-[Tiny Shell](http://www.cems.uwe.ac.uk/~irjohnso/coursenotes/lrc/system/shell/index.html)\
+[Tiny Shell](http://www.cems.uwe.ac.uk/~irjohnso/coursenotes/lrc/system/shell/index.html)
 
-[AST Viewer](https://ast-viewer.datacamp.com/editor?code=echo%20%22hello%22%20%7C%20wc%20%3E%20file1%20%3E%20fileb&start=NA&grammar=shell)\
+[AST Viewer](https://ast-viewer.datacamp.com/editor?code=echo%20%22hello%22%20%7C%20wc%20%3E%20file1%20%3E%20fileb&start=NA&grammar=shell)
 
 [Termcaps](https://www.gnu.org/software/termutils/manual/termcap-1.3/html_mono/termcap.html)\
-[Signals ASCII Table](http://www.physics.udel.edu/~watson/scen103/ascii.html)\
+[Signals ASCII Table](http://www.physics.udel.edu/~watson/scen103/ascii.html)
 
-[Shell Documentation](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_01)\
+[Shell Documentation](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_01)
 
 <pre>
 ------------------------------------------------------------------------------
