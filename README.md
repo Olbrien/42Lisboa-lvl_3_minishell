@@ -38,7 +38,7 @@ that might help people doing this project and how we did it. Specially the parsi
 might think it is.
 
 Also one thing that is really hard to find are the termcaps.
-I have an explanation on how to do termcaps and the history required by the subject on the folder [/extras/termcaps_history_explanation](https://github.com/Olbrien/lvl_3_minishell/blob/main/extras/termcaps_history_explanation/termcaps.c)
+I have an explanation on how to do termcaps and the history required by the subject on the folder [/extras/termcaps_history_explanation/](https://github.com/Olbrien/lvl_3_minishell/blob/main/extras/termcaps_history_explanation/termcaps.c)
 
 Some important links:
 
