@@ -53,7 +53,7 @@ I have an explanation on how to do termcaps and the history required by the subj
 
 [Shell Documentation](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_01)
 
-## Project Research:
+## Research:
 
 <pre>
 ------------------------------------------------------------------------------
