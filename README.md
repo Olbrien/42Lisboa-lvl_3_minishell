@@ -1,26 +1,26 @@
-# minishell
-
 ![GitHub Logo](/extras/images/Success.png)
 
 ###### <i>Recent Update on 17/04/2021.</i>
-Fixed many bugs in between.\
-Finished the project.
+• Fixed many bugs in between.\
+• Finished the project.
 
 ###### <i>Old Update on 21/04/2021.</i>
-Started the project.
+• Started the project.
 
-**** Run This Project ****
+## Subject:
 
-<pre>
+You can find the subject of this project [here.](https://github.com/Olbrien/42Lisboa-lvl_3_minishell/blob/main/extras/lvl_3_minishell.pdf)
+
+![GitHub Logo](/extras/images/Minishell.png)
+
+## How to run:
+
 First download the repository.
 
 If you are on Mac, just type "make".
 If you are on Linux type "make linux".
-</pre>
 
-![GitHub Logo](/extras/images/Minishell.png)
-
-**** Info ****
+## Info:
 
 Minishell is a pretty lenghty project. The hardest challenge so far. You have to do a lot of things and make
 sure everything runs smoothly and that it doesn't crash.
@@ -40,7 +40,7 @@ might think it is.
 Also one thing that is really hard to find are the termcaps.
 I have an explanation on how to do termcaps and the history required by the subject on the folder [/extras/termcaps_history_explanation/](https://github.com/Olbrien/lvl_3_minishell/blob/main/extras/termcaps_history_explanation/termcaps.c)
 
-Some important links:
+#### Some important links:
 
 [Tutorial - Write a Shell in C](https://brennan.io/2015/01/16/write-a-shell-in-c/)\
 [Chapter 5. Writing Your Own Shell](https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf)\
@@ -52,6 +52,8 @@ Some important links:
 [Signals ASCII Table](http://www.physics.udel.edu/~watson/scen103/ascii.html)
 
 [Shell Documentation](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_01)
+
+## Project Research:
 
 <pre>
 ------------------------------------------------------------------------------
